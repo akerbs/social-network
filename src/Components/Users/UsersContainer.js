@@ -13,15 +13,12 @@ import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 
 export class UsersContainer extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-  // life cycle method - componentDidMount - for side effects(getElementById, AJAX request, setTimeOut, etc.)
   componentDidMount() {
     this.props.toggleIsFetching(true);
     axios
       .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&${this.props.pageSize}`
+        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&${this.props.pageSize}`,
+        { withCredentials: true }
       )
       .then((response) => {
         this.props.toggleIsFetching(false);
@@ -35,7 +32,8 @@ export class UsersContainer extends React.Component {
     this.props.toggleIsFetching(true);
     axios
       .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&${this.props.pageSize}`
+        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&${this.props.pageSize}`,
+        { withCredentials: true }
       )
       .then((response) => {
         this.props.toggleIsFetching(false);
@@ -70,31 +68,6 @@ let mapStateToProps = (state) => {
     isFetching: state.usersPage.isFetching,
   };
 };
-
-// let mapDispatchToProps = (dispatch) => {
-//   return {
-//     follow: (userId) => {
-//       dispatch(followAC(userId));
-//     },
-//     unfollow: (userId) => {
-//       dispatch(unfollowAC(userId));
-//     },
-//     setUsers: (users) => {
-//       dispatch(setUsersAC(users));
-//     },
-//     setCurrentPage: (pageNumber) => {
-//       dispatch(setCurrentPageAC(pageNumber));
-//     },
-//     setTotalUsersCount: (totalCount) => {
-//       dispatch(setTotalUsersCountAC(totalCount));
-//     },
-//     toggleIsFetching: (isFetching) => {
-//       dispatch(toggleIsFetchingAC(isFetching));
-//     },
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
 
 export default connect(mapStateToProps, {
   follow,
