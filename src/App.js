@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import NavBar from "./Components/NavBar/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import { Route } from "react-router-dom";
-import DialogsContainer from "./Components/Dialogs/DialogsContainer";
-import UsersContainer from "./Components/Users/UsersContainer";
-import ProfileContainer from "./Components/Profile/ProfileContainer";
-import HeaderContainer from "./Components/Header/HeaderContainer";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import UsersContainer from "./components/Users/UsersContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 const App = (props) => {
   return (
