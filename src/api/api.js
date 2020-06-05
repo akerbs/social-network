@@ -15,6 +15,5 @@ export const usersAPI = {
       .then((response) => {
         return response.data;
       });
-  };
-}
-
+  },
+};
