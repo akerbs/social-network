@@ -16,7 +16,7 @@ export const Textarea = (props) => {
   const { input, meta, chlid, ...restProps } = props;
   return (
     <FormControl {...props}>
-      <textarea {...input} {...restProps} />{" "}
+      <textarea {...input} {...restProps} />
     </FormControl>
   );
 };
