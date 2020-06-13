@@ -3,7 +3,7 @@ import styles from "./Paginator.module.css";
 import cn from "classnames";
 
 let Paginator = ({
-  totalUsersCount: totalItemsCount,
+  totalItemsCount,
   pageSize,
   currentPage,
   onPageChanged,
@@ -19,7 +19,7 @@ let Paginator = ({
   let portionCount = Math.ceil(pagesCount / portionSize);
   let [portionNumber, setPortionNumber] = useState(1);
   let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
-  let rightPortionPageNumber = portionNumber + portionSize;
+  let rightPortionPageNumber = portionNumber * portionSize;
 
   return (
     <div className={styles.paginator}>
