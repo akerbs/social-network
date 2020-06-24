@@ -28,8 +28,21 @@ const DialogsContainer = React.lazy(() =>
 );
 
 class App extends Component {
+  catchAllUnhandledErrors = (promiseRejectionEvent) => {
+    alert("Some error occured");
+    // console.error(promiseRejectionEvent)
+  };
+
   componentDidMount() {
     this.props.initializeApp();
+    window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      "unhandledrejection",
+      this.catchAllUnhandledErrors
+    );
   }
 
   render() {
@@ -49,7 +62,10 @@ class App extends Component {
               render={withSuspense(ProfileContainer)}
             />
             <Route path="/dialogs" render={withSuspense(DialogsContainer)} />
-            <Route path="/users" render={() => <UsersContainer />} />
+            <Route
+              path="/users"
+              render={() => <UsersContainer pageTitle="Testtt" />}
+            />
             <Route path="/login" render={() => <LoginPage />} />
             <Route path="*" render={() => <div>404 NOT FOUND</div>} />
           </Switch>
