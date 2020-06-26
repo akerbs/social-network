@@ -32,8 +32,8 @@ type MapStatePropsType = {
 };
 
 type MapDispatchPropsType = {
-  unfollow: () => void;
-  follow: () => void;
+  unfollow: (userId: number) => void;
+  follow: (userId: number) => void;
   getUsers: (currentPage: number, pageSize: number) => void;
 };
 
@@ -86,11 +86,14 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 };
 
 export default compose(
-  connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setCurrentPage,
-    toggleFollowingProgress,
-    getUsers: requestUsers,
-  })
+  // TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultRootState
+  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
+    mapStateToProps,
+    {
+      follow,
+      unfollow,
+      getUsers: requestUsers,
+    }
+  )
+  //@ts-ignore
 )(UsersContainer);
