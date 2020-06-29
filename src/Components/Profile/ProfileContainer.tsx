@@ -8,29 +8,55 @@ import {
   savePhoto,
   saveProfile,
 } from "../../redux/profile-reducer";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { compose } from "redux";
-// import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { AppStateType } from "../../redux/redux-store";
+import { ProfileType } from "../../types/types";
 
-class ProfileContainer extends React.Component {
+type MapPropsType = ReturnType<typeof mapStateToProps>;
+
+type DispatchPropsType = {
+  getUserProfile: (userId: number) => void;
+  getStatus: (userId: number) => void;
+  updateStatus: (status: string) => void;
+  savePhoto: (file: File) => void;
+  saveProfile: (profile: ProfileType) => Promise<any>;
+};
+
+type PathParamsType = {
+  userId: string;
+};
+
+type PropsType = MapPropsType &
+  DispatchPropsType &
+  RouteComponentProps<PathParamsType>;
+
+class ProfileContainer extends React.Component<PropsType> {
   refreshProfile() {
-    let userId = this.props.match.params.userId;
+    let userId: number | null = +this.props.match.params.userId;
     if (!userId) {
       userId = this.props.authorizedUserId;
     }
     if (!userId) {
+      // todo replace push with Redirect ?
       this.props.history.push("/login");
     }
-    this.props.getUserProfile(userId);
 
-    this.props.getStatus(userId);
+    if (!userId) {
+      throw new Error(
+        "id should exist in URI params or in state ('authorizedUserId')"
+      );
+    } else {
+      this.props.getUserProfile(userId);
+      this.props.getStatus(userId);
+    }
   }
 
   componentDidMount() {
     this.refreshProfile();
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps: PropsType, prevState: PropsType) {
     if (this.props.match.params.userId !== prevProps.match.params.userId)
       this.refreshProfile();
   }
@@ -50,7 +76,7 @@ class ProfileContainer extends React.Component {
   }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType) => {
   // console.log("mapStateToProps PROFILE");
   return {
     profile: state.profilePage.profile,
@@ -60,7 +86,7 @@ let mapStateToProps = (state) => {
   };
 };
 
-export default compose(
+export default compose<React.ComponentType>(
   connect(mapStateToProps, {
     getUserProfile,
     getStatus,

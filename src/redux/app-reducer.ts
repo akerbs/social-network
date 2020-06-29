@@ -1,18 +1,18 @@
 import { getAuthUserData } from "./auth-reducer";
+import { InferActionsTypes } from "./redux-store";
 
-const INITIALIZED_SUCCESS = "social_network/app/INITIALIZED_SUCCESS";
+let initialState = { initialized: false };
 
-export type InitialStateType = {
-  initialized: boolean;
-};
+export type InitialStateType = typeof initialState;
 
-let initialState: InitialStateType = {
-  initialized: false,
-};
+type ActionsType = InferActionsTypes<typeof actions>;
 
-const appReducer = (state = initialState, action: any): InitialStateType => {
+const appReducer = (
+  state = initialState,
+  action: ActionsType
+): InitialStateType => {
   switch (action.type) {
-    case INITIALIZED_SUCCESS:
+    case "SN/APP/INITIALIZED_SUCCESS":
       return {
         ...state,
         initialized: true,
@@ -23,13 +23,9 @@ const appReducer = (state = initialState, action: any): InitialStateType => {
 };
 
 //                       Action Creators => Action(object) to despatch
-type initializedSuccessActionType = {
-  type: typeof INITIALIZED_SUCCESS;
+export const actions = {
+  initializedSuccess: () => ({ type: "SN/APP/INITIALIZED_SUCCESS" } as const),
 };
-
-export const initializedSuccess = (): initializedSuccessActionType => ({
-  type: INITIALIZED_SUCCESS,
-});
 
 //                       Thunk Creator => Thunk(function) to despatch
 export const initializeApp = () => (dispatch: any) => {
@@ -37,7 +33,7 @@ export const initializeApp = () => (dispatch: any) => {
   // dispatch(somethingElse());
   // dispatch(somethingElse());
   Promise.all([promise]).then(() => {
-    dispatch(initializedSuccess());
+    dispatch(actions.initializedSuccess());
   });
 };
 

@@ -24,9 +24,10 @@ export type ProfileType = {
   userId: number;
   lookingForAJob: boolean;
   lookingForAJobDescription: string;
-  fullname: string;
+  fullName: string;
   contacts: ContactsType;
   photos: PhotosType;
+  aboutMe: string;
 };
 
 export type UserType = {
@@ -34,4 +35,5 @@ export type UserType = {
   name: string;
   status: string;
   photos: PhotosType;
+  followed: boolean;
 };
